@@ -4,6 +4,7 @@
 
 ## 1. Create the database
 > [!IMPORTANT]
+> Docker must me installed
 ```bash
 docker compose up -d
 ```
@@ -32,6 +33,7 @@ cd milestone
 
 ## 3. Building for production and running the .jar file
 ```
+cd milestone 
 ./mvnw package                                                                
 java -jar target/*.jar
 ```
