@@ -5,6 +5,8 @@ erDiagram
         VARCHAR(50) first_name
         VARCHAR(50) last_name
         VARCHAR(100) email UK
+        VARCHAR(20) phone_number
+        VARCHAR(50) username UK
         VARCHAR(255) password
         DATETIME created_at
     }

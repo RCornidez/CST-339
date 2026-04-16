@@ -2,14 +2,17 @@ CREATE DATABASE IF NOT EXISTS inventory_db;
 USE inventory_db;
 
 CREATE TABLE users (
-    id         CHAR(36)     PRIMARY KEY DEFAULT (UUID()),
-    first_name VARCHAR(50)  NOT NULL,
-    last_name  VARCHAR(50)  NOT NULL,
-    email      VARCHAR(100) NOT NULL,
-    password   VARCHAR(255) NOT NULL,
-    created_at DATETIME     NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    id           CHAR(36)     PRIMARY KEY DEFAULT (UUID()),
+    first_name   VARCHAR(50)  NOT NULL,
+    last_name    VARCHAR(50)  NOT NULL,
+    email        VARCHAR(100) NOT NULL,
+    phone_number VARCHAR(20)  NOT NULL,
+    username     VARCHAR(50)  NOT NULL,
+    password     VARCHAR(255) NOT NULL,
+    created_at   DATETIME     NOT NULL DEFAULT CURRENT_TIMESTAMP,
 
-    CONSTRAINT uq_users_email UNIQUE (email)
+    CONSTRAINT uq_users_email    UNIQUE (email),
+    CONSTRAINT uq_users_username UNIQUE (username)
 );
 
 CREATE TABLE products (

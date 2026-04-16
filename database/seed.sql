@@ -7,9 +7,9 @@ SET @product2_id = UUID();
 SET @product3_id = UUID();
 SET @product4_id = UUID();
 
-INSERT INTO users (id, first_name, last_name, email, password) VALUES
-(@user1_id, 'Jane', 'Doe',  'jane@freshpicks.com',  'password'),
-(@user2_id, 'James', 'Doe', 'james@freshpicks.com', 'password');
+INSERT INTO users (id, first_name, last_name, email, phone_number, username, password) VALUES
+(@user1_id, 'Jane',  'Doe', 'jane@freshpicks.com',  '555-100-0001', 'jane.doe',  'password'),
+(@user2_id, 'James', 'Doe', 'james@freshpicks.com', '555-100-0002', 'james.doe', 'password');
 
 INSERT INTO products (id, user_id, name, description, sku, price, quantity) VALUES
 (@product1_id, @user1_id, 'Apple',  'Crisp and sweet Fuji apples, sold per unit.', 'FRUIT-001', 1.50, 100),

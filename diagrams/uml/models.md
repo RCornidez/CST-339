@@ -5,6 +5,8 @@ classDiagram
         -String firstName
         -String lastName
         -String email
+        -String phoneNumber
+        -String username
         -String password
         -LocalDateTime createdAt
         +User()
@@ -17,6 +19,10 @@ classDiagram
         +setLastName(String lastName) void
         +getEmail() String
         +setEmail(String email) void
+        +getPhoneNumber() String
+        +setPhoneNumber(String phoneNumber) void
+        +getUsername() String
+        +setUsername(String username) void
         +getPassword() String
         +setPassword(String password) void
         +getCreatedAt() LocalDateTime
