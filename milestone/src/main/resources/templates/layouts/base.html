@@ -1,15 +1,12 @@
 <!DOCTYPE html>
 <html th:fragment="layout(pageTitle, content)" xmlns:th="http://www.thymeleaf.org" lang="en">
-
 <head>
     <meta charset="UTF-8"/>
     <meta name="viewport" content="width=device-width, initial-scale=1"/>
     <title th:text="${pageTitle}">Inventory Management</title>
     <link rel="stylesheet" th:href="@{/webjars/bootstrap/5.3.8/css/bootstrap.min.css}"/>
 </head>
-
 <body>
-
 <nav class="navbar navbar-expand-md navbar-dark bg-dark">
     <div class="container-fluid">
         <a class="navbar-brand" th:href="@{/}">Small Business Inventory Management</a>
@@ -27,9 +24,6 @@
             <ul class="navbar-nav ms-auto mb-2 mb-md-0">
                 <li class="nav-item">
                     <a class="nav-link" th:href="@{/login}">Login</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" th:href="@{/register}">Register</a>
                 </li>
             </ul>
         </div>
