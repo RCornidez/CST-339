@@ -1,6 +1,6 @@
 USE inventory_db;
 
-SET @user1_id    = UUID();
+SET @user1_id    = '00000000-0000-0000-0000-000000000001';
 SET @user2_id    = UUID();
 SET @product1_id = UUID();
 SET @product2_id = UUID();

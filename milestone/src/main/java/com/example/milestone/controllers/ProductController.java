@@ -4,7 +4,6 @@ import com.example.milestone.models.Product;
 import com.example.milestone.services.ProductService;
 import jakarta.validation.Valid;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
@@ -28,8 +27,7 @@ public class ProductController {
     // Hardcoded to temporarily handle the user constraint
     private static final UUID MOCK_USER_ID = UUID.fromString("00000000-0000-0000-0000-000000000001");
 
-    @Autowired
-    private ProductService productService;
+    private final ProductService productService;
 
     public ProductController(ProductService productService) {
         this.productService = productService;
@@ -53,17 +51,17 @@ public class ProductController {
     }
 
     @PostMapping
-    public ResponseEntity<Void> createProduct(@Valid @RequestBody Product product, BindingResult bindingResult) {
-        
+    public ResponseEntity<Product> createProduct(@Valid @RequestBody Product product, BindingResult bindingResult) {
+
         if (bindingResult.hasErrors()) {
             return ResponseEntity.badRequest().build();
         }
-        
-        product.setUserId(MOCK_USER_ID);
-        
-        productService.addProduct(product);
 
-        return ResponseEntity.status(HttpStatus.CREATED).build();
+        product.setUserId(MOCK_USER_ID);
+
+        Product created = productService.addProduct(product);
+
+        return ResponseEntity.status(HttpStatus.CREATED).body(created);
     }
 
     @PutMapping("/{id}")
