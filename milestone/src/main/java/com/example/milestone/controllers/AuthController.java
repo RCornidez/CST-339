@@ -53,8 +53,8 @@ public class AuthController {
             return "pages/register";
         }
 
-        // EVA EDIT: business logic moved to Service layer
-        authService.register(user.getUsername(), user.getPassword());
+        // Eva edit
+        authService.register(user);
 
         return "redirect:/login";
     }
