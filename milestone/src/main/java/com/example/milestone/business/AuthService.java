@@ -1,23 +1,28 @@
 package com.example.milestone.business;
 
+import java.util.Optional;
+
 import org.springframework.stereotype.Service;
+
+import com.example.milestone.models.User;
+import com.example.milestone.repositories.UserRepository;
 
 @Service
 public class AuthService {
+
+    private final UserRepository userRepository;
+
+    public AuthService(UserRepository userRepository) {
+        this.userRepository = userRepository;
+    }
 
     // =========================
     // LOGIN LOGIC (Business Layer)
     // =========================
     public boolean authenticate(String username, String password) {
 
-        // EVA NOTE: temporary hardcoded logic (no database yet)
-        // In real apps, this would check a database
-
-        if ("admin".equals(username) && "password".equals(password)) {
-            return true;
-        }
-
-        return false;
+        Optional<User> user = userRepository.findByUsernameOrEmailAddress(username, username);
+        return user.map(foundUser -> foundUser.getPassword().equals(password)).orElse(false);
     }
 
     // =========================
