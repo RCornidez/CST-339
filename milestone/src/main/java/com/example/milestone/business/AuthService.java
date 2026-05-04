@@ -25,16 +25,16 @@ public class AuthService {
         return user.map(foundUser -> foundUser.getPassword().equals(password)).orElse(false);
     }
 
-    // =========================
-    // REGISTRATION LOGIC
-    // =========================
-    public boolean register(String username, String password) {
+    // LOGIN (checks database)
+    public boolean authenticate(String username, String password) {
 
-        // EVA NOTE: placeholder registration logic
-        // Normally this would save to a database
+        return userRepository.findByUsername(username)
+                .map(user -> user.getPassword().equals(password))
+                .orElse(false);
+    }
 
-        System.out.println("User registered: " + username);
-
-        return true;
+    // REGISTER (saves to database)
+    public void register(User user) {
+        userRepository.save(user);
     }
 }

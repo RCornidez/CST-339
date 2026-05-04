@@ -1,53 +1,49 @@
 package com.example.milestone.services;
 
 import com.example.milestone.models.Product;
+import com.example.milestone.repositories.ProductRepository;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
 
 @Service
 public class ProductService {
 
-    private final List<Product> products = new ArrayList<>();
+    private final ProductRepository productRepository;
+
+    public ProductService(ProductRepository productRepository) {
+        this.productRepository = productRepository;
+    }
 
     public List<Product> getAllProducts(UUID userId) {
-        return products.stream()
-                .filter(p -> p.getUserId().equals(userId))
-                .toList();
+        return productRepository.findByUserId(userId);
     }
 
     public Product getProductById(UUID id, UUID userId) {
-        return products.stream()
-                .filter(p -> p.getId().equals(id) && p.getUserId().equals(userId))
-                .findFirst()
-                .orElse(null);
+        return productRepository.findByIdAndUserId(id, userId).orElse(null);
     }
 
-    public void addProduct(Product product) {
-        product.setId(UUID.randomUUID());
-        products.add(product);
+    public Product addProduct(Product product) {
+        return productRepository.save(product);
     }
 
     public boolean updateProduct(UUID id, UUID userId, Product updated) {
+        Optional<Product> existing = productRepository.findByIdAndUserId(id, userId);
+        if (existing.isEmpty()) return false;
 
-        for (int i = 0; i < products.size(); i++) {
-
-            Product existing = products.get(i);
-
-            if (existing.getId().equals(id) && existing.getUserId().equals(userId)) {
-                updated.setId(id);
-                updated.setUserId(userId);
-                products.set(i, updated);
-                return true;
-            }
-        }
-
-        return false;
+        Product product = existing.get();
+        product.setName(updated.getName());
+        product.setDescription(updated.getDescription());
+        product.setSku(updated.getSku());
+        product.setPrice(updated.getPrice());
+        product.setQuantity(updated.getQuantity());
+        productRepository.save(product);
+        return true;
     }
 
     public boolean deleteProduct(UUID id, UUID userId) {
-        return products.removeIf(p -> p.getId().equals(id) && p.getUserId().equals(userId));
+        return productRepository.deleteByIdAndUserId(id, userId) > 0;
     }
 }
