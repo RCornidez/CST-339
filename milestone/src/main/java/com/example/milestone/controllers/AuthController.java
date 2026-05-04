@@ -1,6 +1,5 @@
 package com.example.milestone.controllers;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -16,9 +15,11 @@ import jakarta.validation.Valid;
 @Controller
 public class AuthController {
 
-    // EVA EDIT: Dependency Injection (IoC)
-    @Autowired
-    private AuthService authService;
+    private final AuthService authService;
+
+    public AuthController(AuthService authService) {
+        this.authService = authService;
+    }
 
     @GetMapping("/login")
     public String login() {
