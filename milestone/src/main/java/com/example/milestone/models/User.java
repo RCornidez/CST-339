@@ -1,6 +1,5 @@
 package com.example.milestone.models;
 
-
 import java.util.UUID;
 
 import jakarta.persistence.Column;
@@ -107,9 +106,4 @@ public class User {
 	public void setPhoneNumber(String phoneNumber) {
 		this.phoneNumber = phoneNumber;
 	}
-}
-
-    public void setPassword(String password) {
-        this.password = password;
-    }
 }
