@@ -25,14 +25,6 @@ public class AuthService {
         return user.map(foundUser -> foundUser.getPassword().equals(password)).orElse(false);
     }
 
-    // LOGIN (checks database)
-    public boolean authenticate(String username, String password) {
-
-        return userRepository.findByUsername(username)
-                .map(user -> user.getPassword().equals(password))
-                .orElse(false);
-    }
-
     // REGISTER (saves to database)
     public void register(User user) {
         userRepository.save(user);
