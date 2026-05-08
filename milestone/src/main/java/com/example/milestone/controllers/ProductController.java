@@ -6,20 +6,23 @@ import jakarta.validation.Valid;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import java.util.List;
 import java.util.UUID;
 
-@RestController
+@Controller
 @RequestMapping("/products")
 public class ProductController {
 
@@ -33,12 +36,63 @@ public class ProductController {
         this.productService = productService;
     }
 
+    @GetMapping("/list")
+    public String productListPage(Model model) {
+        model.addAttribute("products", productService.getAllProducts(MOCK_USER_ID));
+        return "pages/product-list";
+    }
+
+    @GetMapping("/new")
+    public String createProductPage(Model model) {
+        model.addAttribute("product", new Product());
+        model.addAttribute("formAction", "/products/new");
+        return "pages/product";
+    }
+
+    @PostMapping("/new")
+    public String createProductSubmit(@Valid @ModelAttribute("product") Product product,
+                                      BindingResult bindingResult, Model model) {
+        if (bindingResult.hasErrors()) {
+            model.addAttribute("formAction", "/products/new");
+            return "pages/product";
+        }
+        product.setUserId(MOCK_USER_ID);
+        productService.addProduct(product);
+        return "redirect:/products/list";
+    }
+
+    @GetMapping("/{id}/edit")
+    public String editProductPage(@PathVariable UUID id, Model model) {
+        Product product = productService.getProductById(id, MOCK_USER_ID);
+        if (product == null) {
+            return "redirect:/products/list";
+        }
+        model.addAttribute("product", product);
+        model.addAttribute("formAction", "/products/" + id + "/edit");
+        return "pages/product";
+    }
+
+    @PostMapping("/{id}/edit")
+    public String updateProductSubmit(@PathVariable UUID id,
+                                      @Valid @ModelAttribute("product") Product product,
+                                      BindingResult bindingResult, Model model) {
+        if (bindingResult.hasErrors()) {
+            model.addAttribute("formAction", "/products/" + id + "/edit");
+            return "pages/product";
+        }
+        product.setUserId(MOCK_USER_ID);
+        productService.updateProduct(id, MOCK_USER_ID, product);
+        return "redirect:/products/list";
+    }
+
     @GetMapping
+    @ResponseBody
     public ResponseEntity<List<Product>> listProducts() {
         return ResponseEntity.ok(productService.getAllProducts(MOCK_USER_ID));
     }
 
     @GetMapping("/{id}")
+    @ResponseBody
     public ResponseEntity<Product> getProduct(@PathVariable UUID id) {
         
         Product product = productService.getProductById(id, MOCK_USER_ID);
@@ -51,6 +105,7 @@ public class ProductController {
     }
 
     @PostMapping
+    @ResponseBody
     public ResponseEntity<Product> createProduct(@Valid @RequestBody Product product, BindingResult bindingResult) {
 
         if (bindingResult.hasErrors()) {
@@ -65,6 +120,7 @@ public class ProductController {
     }
 
     @PutMapping("/{id}")
+    @ResponseBody
     public ResponseEntity<Void> updateProduct(@PathVariable UUID id, @Valid @RequestBody Product product, BindingResult bindingResult) {
 
         if (bindingResult.hasErrors()) {
@@ -81,14 +137,8 @@ public class ProductController {
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<Void> deleteProduct(@PathVariable UUID id) {
-
-        boolean deleted = productService.deleteProduct(id, MOCK_USER_ID);
-
-        if (!deleted) {
-            return ResponseEntity.notFound().build();
-        }
-
-        return ResponseEntity.noContent().build();
+    public String deleteProduct(@PathVariable UUID id) {
+        productService.deleteProduct(id, MOCK_USER_ID);
+        return "redirect:/products/list";
     }
 }

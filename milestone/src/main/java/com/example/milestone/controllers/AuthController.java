@@ -33,7 +33,7 @@ public class AuthController {
 
         // EVA EDIT: business logic moved to Service layer
         if (authService.authenticate(username, password)) {
-            return "redirect:/";
+            return "redirect:/products/list";
         }
 
         model.addAttribute("errorMessage", "Invalid username or password.");
