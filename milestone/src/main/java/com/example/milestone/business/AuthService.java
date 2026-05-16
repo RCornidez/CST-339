@@ -1,7 +1,6 @@
 package com.example.milestone.business;
 
-import java.util.Optional;
-
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import com.example.milestone.models.User;
@@ -11,22 +10,23 @@ import com.example.milestone.repositories.UserRepository;
 public class AuthService {
 
     private final UserRepository userRepository;
+    private final PasswordEncoder passwordEncoder;
 
-    public AuthService(UserRepository userRepository) {
+    public AuthService(UserRepository userRepository, PasswordEncoder passwordEncoder) {
         this.userRepository = userRepository;
+        this.passwordEncoder = passwordEncoder;
     }
 
-    // =========================
-    // LOGIN LOGIC (Business Layer)
-    // =========================
-    public boolean authenticate(String username, String password) {
-
-        Optional<User> user = userRepository.findByUsernameOrEmailAddress(username, username);
-        return user.map(foundUser -> foundUser.getPassword().equals(password)).orElse(false);
-    }
-
-    // REGISTER (saves to database)
     public void register(User user) {
+        if (userRepository.existsByUsername(user.getUsername())) {
+            throw new IllegalArgumentException("Username already exists.");
+        }
+
+        if (userRepository.existsByEmailAddress(user.getEmailAddress())) {
+            throw new IllegalArgumentException("Email address already exists.");
+        }
+
+        user.setPassword(passwordEncoder.encode(user.getPassword()));
         userRepository.save(user);
     }
 }

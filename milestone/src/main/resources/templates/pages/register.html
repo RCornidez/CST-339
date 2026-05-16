@@ -8,6 +8,10 @@
                 <div class="card-body p-4">
                     <h1 class="h3 mb-4 text-center">Create Account</h1>
 
+                    <div th:if="${registrationError}" class="alert alert-danger" role="alert">
+                        <span th:text="${registrationError}"></span>
+                    </div>
+
                     <form th:action="@{/register}" th:object="${user}" method="post">
                         <div class="mb-3">
                             <label for="firstName" class="form-label">First Name</label>
