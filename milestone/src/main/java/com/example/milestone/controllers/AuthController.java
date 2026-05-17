@@ -5,7 +5,6 @@ import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 
 import com.example.milestone.business.AuthService;
 import com.example.milestone.models.User;
@@ -26,20 +25,6 @@ public class AuthController {
         return "pages/login";
     }
 
-    @PostMapping("/login")
-    public String processLogin(@RequestParam String username,
-                               @RequestParam String password,
-                               Model model) {
-
-        // EVA EDIT: business logic moved to Service layer
-        if (authService.authenticate(username, password)) {
-            return "redirect:/products/list";
-        }
-
-        model.addAttribute("errorMessage", "Invalid username or password.");
-        return "pages/login";
-    }
-
     @GetMapping("/register")
     public String register(Model model) {
         model.addAttribute("user", new User());
@@ -54,9 +39,13 @@ public class AuthController {
             return "pages/register";
         }
 
-        // Eva edit
-        authService.register(user);
+        try {
+            authService.register(user);
+        } catch (IllegalArgumentException ex) {
+            model.addAttribute("registrationError", ex.getMessage());
+            return "pages/register";
+        }
 
-        return "redirect:/login";
+        return "redirect:/login?registered";
     }
 }

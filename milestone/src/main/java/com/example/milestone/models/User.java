@@ -45,7 +45,7 @@ public class User {
 	private String username;
 	
 	@NotNull(message="Password is a required field")
-	@Size(min=8, max=40, message="Password must be between 8 and 40 characters")
+	@Size(min=8, max=255, message="Password must be between 8 and 255 characters")
     @Column(name = "password")
 	private String password;
 	

@@ -7,7 +7,7 @@ SET @product3_id = UUID();
 SET @product4_id = UUID();
 
 INSERT INTO users (id, first_name, last_name, email, phone_number, username, password) VALUES
-(@user1_id, 'admin',  'lastname', 'test@email.com',  '111-111-1111', 'admin',  'password');
+(@user1_id, 'admin',  'lastname', 'test@email.com',  '111-111-1111', 'admin',  '{noop}password');
 
 
 INSERT INTO products (id, user_id, name, description, sku, price, quantity) VALUES

@@ -8,8 +8,16 @@
                 <div class="card-body p-4">
                     <h1 class="h3 mb-4 text-center">Sign In</h1>
 
-                    <div th:if="${errorMessage}" class="alert alert-danger" role="alert">
-                        <span th:text="${errorMessage}"></span>
+                    <div th:if="${param.error}" class="alert alert-danger" role="alert">
+                        Invalid username or password.
+                    </div>
+
+                    <div th:if="${param.logout}" class="alert alert-success" role="alert">
+                        You have been logged out.
+                    </div>
+
+                    <div th:if="${param.registered}" class="alert alert-success" role="alert">
+                        Registration successful. Please sign in.
                     </div>
 
                     <form th:action="@{/login}" method="post">
