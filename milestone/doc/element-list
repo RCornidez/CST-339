@@ -1,0 +1,7 @@
+com.example.milestone
+com.example.milestone.business
+com.example.milestone.config
+com.example.milestone.controllers
+com.example.milestone.models
+com.example.milestone.repositories
+com.example.milestone.services

@@ -11,6 +11,12 @@ import jakarta.persistence.Table;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 
+/**
+ * Model representing a user object stored in the database.
+ * 
+ * This class maps to the table of users which stores the first name,
+ * last name, email, phone number, username, and password of a user.
+ */
 @Entity
 @Table(name = "users")
 public class User {
@@ -49,11 +55,24 @@ public class User {
     @Column(name = "password")
 	private String password;
 	
+	/**
+	 * Default constructor
+	 */
 	public User()
 	{
 		
 	}
 	
+	/**
+	 * Initializes user with all fields.
+	 * 
+	 * @param firstName first name of user
+	 * @param lastName the last name of a user
+	 * @param emailAddress the email of a user
+	 * @param phoneNumber the phone number of a user
+	 * @param username the username of a user
+	 * @param password the password of a user
+	 */
 	public User(String firstName, String lastName, String emailAddress, String phoneNumber, String username,
 			String password) {
 		super();
@@ -64,45 +83,115 @@ public class User {
 		this.username = username;
 		this.password = password;
 	}
+	/**
+	 * Returns the user's id
+	 * 
+	 * @return id the user id
+	 */
     public UUID getId() {
         return id;
     }
+    /**
+     * Sets the user's id
+     * 
+     * @param id the user id
+     */
     public void setId(UUID id) {
         this.id = id;
     }
+    /**
+     * Returns username of a user.
+     * 
+     * @return username the username of a user
+     */
 	public String getUsername() {
 		return username;
 	}
+	/**
+	 * Sets the username for a user.
+	 * 
+	 * @param username the user's username
+	 */
 	public void setUsername(String username) {
 		this.username = username;
 	}
+	/**
+	 * Returns the user's password.
+	 * 
+	 * @return password the password of a user
+	 */
 	public String getPassword() {
 		return password;
 	}
+	/**
+	 * Sets the user's password.
+	 * 
+	 * @param password the password of a user
+	 */
 	public void setPassword(String password) {
 		this.password = password;
 	}
+	/**
+	 * Returns the first name of a user.
+	 * 
+	 * @return firstName the first name of a user
+	 */
 	public String getFirstName() {
 		return firstName;
 	}
+	/**
+	 * Sets the first name of a user.
+	 * 
+	 * @param firstName is the firstname of a user
+	 */
 	public void setFirstName(String firstName) {
 		this.firstName = firstName;
 	}
+	/**
+	 * Returns the last name of a user.
+	 * 
+	 * @return lastName the last name of a user
+	 */
 	public String getLastName() {
 		return lastName;
 	}
+	/**
+	 * Sets the last name of a user.
+	 * 
+	 * @param lastName is the last name of a user
+	 */
 	public void setLastName(String lastName) {
 		this.lastName = lastName;
 	}
+	/**
+	 * Returns email address of user.
+	 * 
+	 * @return emailAddress is email of a user
+	 */
 	public String getEmailAddress() {
 		return emailAddress;
 	}
+	/**
+	 * Sets the email address for a user.
+	 * 
+	 * @param emailAddress the email of a user
+	 */
 	public void setEmailAddress(String emailAddress) {
 		this.emailAddress = emailAddress;
 	}
+	/**
+	 * Returns phone number of a user.
+	 * 
+	 * @return phoneNumber is the phone number of a user
+	 */
 	public String getPhoneNumber() {
 		return phoneNumber;
 	}
+	/**
+	 * Sets the phone number of a user.
+	 * 
+	 * @param phoneNumber the phone number of a user
+	 */
 	public void setPhoneNumber(String phoneNumber) {
 		this.phoneNumber = phoneNumber;
 	}
